@@ -8,8 +8,15 @@ on:
     branches: [master]
 
 jobs:
+  # -------------------------
+  # BUILD JOB
+  # -------------------------
   build:
     runs-on: ubuntu-latest
+
+    # Condition : ne lancer ce job que si
+    # un fichier dans un dossier donné change
+    if: contains(join(github.event.commits.*.modified, ','), 'recipes')
 
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +40,9 @@ jobs:
 
   test-unit:
     runs-on: ubuntu-latest
-    needs: build   # dépend du job de build
+    needs: build
+
+    if: contains(join(github.event.commits.*.modified, ','), 'example-application/test')
 
     steps:
       - uses: actions/checkout@v4
@@ -60,7 +69,10 @@ jobs:
 
   test-nestjs:
     runs-on: ubuntu-latest
-    needs: build   # dépend aussi du job de build
+    needs: build
+
+    # Condition : ne lancer ce job que si les fichiers NestJS changent
+    if: contains(join(github.event.commits.*.modified, ','), 'recipes/nestjs')
 
     steps:
       - uses: actions/checkout@v4
