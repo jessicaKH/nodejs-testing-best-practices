@@ -16,7 +16,7 @@ jobs:
 
     # Condition : ne lancer ce job que si
     # un fichier dans un dossier donné change
-    if: contains(join(github.event.commits.*.modified, ','), 'recipes')
+    # if: contains(join(github.event.commits.*.modified, ','), 'recipes')
 
     steps:
       - uses: actions/checkout@v4
